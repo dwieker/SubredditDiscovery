@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block body %}
+ 
+  <hr />
+  <div class="content">
+    <h1>
+       Enter your reddit username!
+    </h1>
+    <h3>
+       Using your comment history, we'll generate a personalized set of subreddit recommendations.
+    </h3>
+       
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="row">
+        <div class="three columns">
+          {{ form.username.label }} {{ form.username() }}
+        </div>
+      </div>
+      <div class="row"> 
+        <button id="submitbutton" type="submit" class="button-primary">Submit</button>
+      </div>
+        <div id="loadspot"></div>
+    </form>
+     
+    <hr>
+   
+    <div style="width: 100%; overflow: hidden;">
+        <div style="width: 30%; float: left;"> 
+        <ul>
+          {% for rec in subs %}
+            {% if rec %}
+                 <b>Because you like /r/{{rec[0]}}...</b>
+                {% for recs in rec[1] %}
+                   <li><a href="https://www.reddit.com/r/{{recs}}/">/r/{{recs}}</a></li>
+                {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </ul>
+        </div>
+        <div style="width:40%; float:right;">
+         <ul>{% if alternate_subs %}
+               <b> Given your comment content, you might like... </b> 
+              {% for rec in alternate_subs %}
+                   <li><a href="https://www.reddit.com/r/{{rec}}/">/r/{{rec}}</a></li>
+              {% endfor %}
+            {% endif %}
+        </ul>
+        </div>
+   </div>      
+  </div>
+{% endblock body %}
+
+
+
+{% block js %}
+
+    <script> 
+            var btn = d3.select("#submitbutton");
+            btn.on("click", function(){
+                //d3.select("#loading").attr("width", "0px");
+                d3.select("#loadspot").append("div").attr("id", "loading")
+                
+            });
+          
+    </script>
+  
+{% endblock js %}
