@@ -24,7 +24,7 @@ stemmer = SnowballStemmer("english")
 tokenizer = RegexpTokenizer(r'\w+')
 
 
-print "loading %d with chunksize %d"%(num_comments, chunksize)
+print "loading %d reddit comments with chunksize %d"%(num_comments, chunksize)
 
 def connect_db():
     cred = json.load(open("db_cred.json"))
